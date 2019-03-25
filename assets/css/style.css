@@ -1,0 +1,82 @@
+@font-face {
+  font-family: 'Menlo';
+  src: url('/assets/fonts/Menlo-Regular.ttf') format('truetype');
+}
+@-ms-viewport {
+  width: device-width;
+}
+body {
+  margin: 0;
+  font-family: 'Menlo';
+  background-color: beige;
+}
+a {
+  color: black;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+nav {
+  padding: 2vw;
+}
+nav div.header {
+  text-align: center;
+}
+nav div.header h1 {
+  font-size: 32pt;
+  margin: 0;
+}
+nav div.header h2 {
+  font-size: 16pt;
+  margin: 5px 0 10px 0;
+}
+nav a {
+  display: block;
+  font-size: 14pt;
+  padding: 10px 0;
+}
+main.content {
+  padding: 4vh;
+  text-align: center;
+}
+canvas {
+  border: 1px solid;
+}
+@media screen 
+  and (max-width: 899px) {
+    nav div.header h1 {
+      font-size: 24pt;
+      display: none;
+    }
+    nav div.header h2 {
+      font-size: 12pt;
+      display: none;
+    }
+    nav .links {
+      display: none;
+    }
+    nav div.mobile-nav {
+      display: inline-block;
+     padding: 10px;
+    }
+    nav div.mobile-nav:hover {
+      cursor: pointer;
+    }
+    nav div.mobile-nav div.hb-line {
+      border: 1px black solid;
+      margin: 3px 0;
+      padding: 2px;
+      border-radius: 10px;
+      background-color: black;
+      width: 30px;
+    }
+
+}
+@media screen
+  and (min-width: 900px) {
+    body {
+      display: grid;
+      grid-template-columns: .2fr 1fr;
+    }
+  }
