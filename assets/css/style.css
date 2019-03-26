@@ -9,6 +9,7 @@ body {
   margin: 0;
   font-family: 'Menlo';
   background-color: beige;
+  height: 2000px;
 }
 a {
   color: black;
@@ -17,17 +18,14 @@ a {
 a:hover {
   text-decoration: underline;
 }
-nav {
-  padding: 2vw;
-}
-nav div.header {
+nav .header {
   text-align: center;
 }
-nav div.header h1 {
+nav .header h1 {
   font-size: 32pt;
   margin: 0;
 }
-nav div.header h2 {
+nav .header h2 {
   font-size: 16pt;
   margin: 5px 0 10px 0;
 }
@@ -45,20 +43,43 @@ canvas {
 }
 @media screen 
   and (max-width: 899px) {
-    nav div.header h1 {
+    .menu-closed {
+      display: none;
+    }
+    nav {
+      padding: 10px;
+      position: sticky;
+      top: -1px;
+      left: -1px;
+      background-color: beige;
+      border-bottom: 1px solid black;
+    }
+    nav .header h1 {
       font-size: 24pt;
       display: none;
     }
-    nav div.header h2 {
+    nav .header h2 {
       font-size: 12pt;
       display: none;
     }
     nav .links {
-      display: none;
+      position: absolute;
+      top: 70px;
+      left: 0;
+      background-color: beige;
+      min-width: 200px;
+      border: 1px solid black;
     }
+    nav .links a {
+      padding: 10px 20px;
+      width: 180px;
+    }
+    /* nav .links a:hover {
+      background-color: rgba(0, 0, 0, .1)
+    } */
     nav div.mobile-nav {
       display: inline-block;
-     padding: 10px;
+      padding: 10px;
     }
     nav div.mobile-nav:hover {
       cursor: pointer;
@@ -78,5 +99,8 @@ canvas {
     body {
       display: grid;
       grid-template-columns: .2fr 1fr;
+    }
+    nav {
+      padding: 30px 20px;
     }
   }
