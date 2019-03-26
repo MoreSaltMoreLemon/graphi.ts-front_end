@@ -2,17 +2,19 @@
   font-family: 'Menlo';
   src: url('/assets/fonts/Menlo-Regular.ttf') format('truetype');
 }
+
 @-ms-viewport {
   width: device-width;
 }
 body {
   margin: 0;
   font-family: 'Menlo';
-  background-color: beige;
+  color: lightgray;
+  background-color: #323232;
   height: 2000px;
 }
 a {
-  color: black;
+  color: lightgray;
   text-decoration: none;
 }
 a:hover {
@@ -36,7 +38,7 @@ nav a {
 }
 main.content {
   padding: 4vh;
-  text-align: center;
+  /* text-align: center; */
 }
 canvas {
   border: 1px solid;
@@ -100,6 +102,15 @@ button {
       width: 30px;
     }
 
+    main.content {
+      padding: 0vh;
+    }
+
+    canvas, div#editor {
+      width: 80%;
+      padding: 20px;
+    }
+
 }
 @media screen
   and (min-width: 900px) {
@@ -112,13 +123,17 @@ button {
     }
   }
 
+canvas, #text-editor-form {
+  height: 600px;
+  width: 900px;
+}
 #text-editor {
   position: relative;
 }
 #editor { 
-  /* height: 300px; */
-  width: 300px;
-  position: absolute;
+  height: 300px;
+  width: 100%;
+  position: inline;
   top: 0;
   right: 0;
   bottom: 0;
