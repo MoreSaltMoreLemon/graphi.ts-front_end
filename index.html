@@ -23,15 +23,24 @@
       </header>
 
       <div class="links menu-closed">
-        <a href="#/">Home</a>
-        <a href="#/examples">Examples</a>
-        <a href="#/docs">Documentation</a>
+        <a href="#home">Home</a>
+        <a href="#examples">Examples</a>
+        <a href="#docs">Documentation</a>
         <a href="#">GitHub</a>
       </div>
     </nav>
 
-    <main class="content">
+    <main class="content" id="content">
         <canvas height="500px" width="900px"></canvas>
+        <textarea id="input" cols="120" rows="12">
+let canvas = document.querySelector("canvas");
+let g = new Graphi(canvas);
+g.draw(canvas);
+genFn(Math.sin, { x: 0, y: 200 }, canvas.width, 200, 50, 5);
+g.drawLine(sine, "blue");
+</textarea>
+<br>
+<button type="submit" id="input-button">Update</button>
     </main>
 
   </body>
