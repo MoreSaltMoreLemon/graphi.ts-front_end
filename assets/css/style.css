@@ -111,3 +111,16 @@ button {
       padding: 30px 20px;
     }
   }
+
+#text-editor {
+  position: relative;
+}
+#editor { 
+  /* height: 300px; */
+  width: 300px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
