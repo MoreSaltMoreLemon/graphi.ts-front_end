@@ -32,15 +32,20 @@
 
     <main class="content" id="content">
         <canvas height="500px" width="900px"></canvas>
-        <textarea id="input" cols="120" rows="12">
+        <textarea id="input" cols="100" rows="12">
 let canvas = document.querySelector("canvas");
 let g = new Graphi(canvas);
 g.draw(canvas);
-genFn(Math.sin, { x: 0, y: 200 }, canvas.width, 200, 50, 5);
-g.drawLine(sine, "blue");
-</textarea>
+let sine = g.genFn(Math.sin, { x: 0, y: 200 }, canvas.width, 200, 50, 5);
+g.drawLine(sine, "blue");</textarea>
 <br>
-<button type="submit" id="input-button">Update</button>
+<select name="line-type" id="graph-type">
+  <option value="line">Line</option>
+  <option value="scatter">Scatter</option>
+</select>
+<button id="input-button">Update</button>
+<button id="clear">Clear</button>
+<button id="save">Save</button>
     </main>
 
   </body>

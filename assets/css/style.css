@@ -41,6 +41,13 @@ main.content {
 canvas {
   border: 1px solid;
 }
+textarea {
+  font-size: 12pt;
+}
+button {
+  padding: 10px;
+  font-size: 12pt;
+}
 @media screen 
   and (max-width: 899px) {
     .menu-closed {

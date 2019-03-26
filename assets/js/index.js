@@ -1,29 +1,43 @@
 window.addEventListener("load", main);
 
 function main() {
-    // Create graph start
     let canvas = document.querySelector("canvas");
-    let g = new Graphi(canvas);
-    g.draw(canvas);
-    const sine = g.genFn(Math.sin, { x: 0, y: 200 }, canvas.width, 200, 50, 5);
-    g.drawLine(sine, "blue");
-    // end
+
+    updateGraph();
+
+    let button = document.getElementById('input-button');
+    button.addEventListener('click', (evnt)=>{
+        updateGraph();
+    })
+
+    let clear = document.getElementById('clear');
+    clear.addEventListener('click', () => {
+        const context = canvas.getContext('2d');
+        context.clearRect(0, 0, canvas.width, canvas.height);
+    })
+
+    let save = document.getElementById('save');
+    save.addEventListener('click', () => {
+        console.log(getInput())
+    })
+
+
     let mobileNav = document.querySelector('.mobile-nav');
     mobileNav.addEventListener('click', menuToggle);
 
     window.addEventListener('hashchange', () => {
-        console.log('you are now viewing a new page')
+        console.log('you are now viewing a new page');
     })
 
     let examples = document.querySelectorAll('.links a')
     examples.forEach((link) => { link.addEventListener('click', (evnt) => {
-        let hash = evnt.target.hash.split('#')
-        let url = hash[1]
+        let hash = evnt.target.hash.split('#');
+        let url = hash[1];
         if (url) {
             fetch(`/pages/${url}.html`).then(results => results.text())
            .then(text => {
-            let page = document.getElementById('content')
-                page.innerHTML = text
+            let page = document.getElementById('content');
+                page.innerHTML = text;
             })
         }
     })})
@@ -32,6 +46,16 @@ function main() {
 function menuToggle() {
     let nav = document.querySelector('.links');
     nav.classList.toggle('menu-closed');
+}
+
+function updateGraph() {
+    getInput()
+    eval(input.value);
+}
+
+function getInput() {
+    let input = document.getElementById('input');
+    return input.value
 }
 
 function naturalLog(x) {
