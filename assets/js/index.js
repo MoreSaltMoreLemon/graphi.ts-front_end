@@ -1,46 +1,67 @@
 window.addEventListener("load", main);
 
 function main() {
-    let canvas = document.querySelector("canvas");
-
-    updateGraph();
-
-    let button = document.getElementById('input-button');
-    button.addEventListener('click', (evnt)=>{
-        updateGraph();
-    })
-
-    let clear = document.getElementById('clear');
-    clear.addEventListener('click', () => {
-        const context = canvas.getContext('2d');
-        context.clearRect(0, 0, canvas.width, canvas.height);
-    })
-
-    let save = document.getElementById('save');
-    save.addEventListener('click', () => {
-        console.log(getInput())
-    })
+  initializeGraphEditorForm();
+  initializeHamburger();
+}
 
 
-    let mobileNav = document.querySelector('.mobile-nav');
-    mobileNav.addEventListener('click', menuToggle);
+function initializeGraphEditorForm() {
+  let canvas = document.querySelector("canvas");
 
-    window.addEventListener('hashchange', () => {
-        console.log('you are now viewing a new page');
-    })
+  updateGraph();
 
-    let examples = document.querySelectorAll('.links a')
-    examples.forEach((link) => { link.addEventListener('click', (evnt) => {
-        let hash = evnt.target.hash.split('#');
-        let url = hash[1];
-        if (url) {
-            fetch(`/pages/${url}.html`).then(results => results.text())
-           .then(text => {
+  let updateButton = document.getElementById('input-button');
+  updateButton.addEventListener('click', (e)=>{
+      updateGraph();
+  });
+
+  let clearButton = document.getElementById('clear');
+  clearButton.addEventListener('click', () => {
+      const context = canvas.getContext('2d');
+      context.clearRect(0, 0, canvas.width, canvas.height);
+  })
+
+
+  let saveButton = document.getElementById('save');
+  saveButton.addEventListener('click', () => {
+      console.log(getInput())
+  })
+}
+
+function updateGraph() {
+  getInput()
+  eval(input.value);
+}
+
+function getInput() {
+  let input = document.getElementById('input');
+  return input.value
+}
+
+function initializeHamburger() {
+  // Hamburger Toggle
+  let mobileNav = document.querySelector('.mobile-nav');
+  mobileNav.addEventListener('click', menuToggle);
+
+  window.addEventListener('hashchange', () => {
+    console.log('you are now viewing a new page');
+  })
+
+  let examples = document.querySelectorAll('.links a')
+  examples.forEach((link) => { 
+    link.addEventListener('click', (e) => {
+      let hash = e.target.hash.split('#');
+      let url = hash[1];
+      if (url) {
+        fetch(`/pages/${url}.html`).then(results => results.text())
+          .then(text => {
             let page = document.getElementById('content');
-                page.innerHTML = text;
-            })
-        }
-    })})
+            page.innerHTML = text;
+          })
+      }
+    })
+  })
 }
 
 function menuToggle() {
@@ -48,19 +69,3 @@ function menuToggle() {
     nav.classList.toggle('menu-closed');
 }
 
-function updateGraph() {
-    getInput()
-    eval(input.value);
-}
-
-function getInput() {
-    let input = document.getElementById('input');
-    return input.value
-}
-
-function naturalLog(x) {
-    return Math.log(x);
-}
-function sahirFn(x) {
-    return Math.pow(Math.atan(x), 1 / 3);
-}
