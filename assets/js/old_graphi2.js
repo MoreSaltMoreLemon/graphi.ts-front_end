@@ -46,13 +46,11 @@ class Graphi {
             this.drawLine([start, end], color);
         }
     }
-    drawPoints(points, radius = 1, color = '') {
-        if (color === '')
-            color = this.getNextColor();
+    drawPoints(points, radius, color) {
         for (const point of points)
             this.drawPoint(point, radius, color);
     }
-    drawPoint(point, radius = 1, color = '') {
+    drawPoint(point, radius, color = '') {
         if (color === '')
             color = this.getCurrentColor();
         const newPoint = this.tr(point);
@@ -64,7 +62,7 @@ class Graphi {
         this.cx.fill();
         this.cx.stroke();
     }
-    genFn(fn, amplitude = 1, frequency = 1, step = 1) {
+    genFn(fn, amplitude, frequency, step) {
         const yOfX = [];
         for (let x = this.startX; x < this.endX; x += step) {
             yOfX.push({ x: x,
@@ -72,32 +70,16 @@ class Graphi {
         }
         return yOfX;
     }
+    genSine(start, end, amplitude, frequency, step) {
+        const sine = [];
+        for (; start.x < end; start.x += step) {
+            sine.push({ x: start.x,
+                y: Math.sin(start.x / frequency) * amplitude + start.y });
+        }
+        return sine;
+    }
     transformAll(coords) {
         return coords.map(coord => this.tr(coord));
-    }
-    drawBezier(coords, color = '', weight = 5) {
-        if (color === '')
-            color = this.getNextColor();
-        const cs = this.transformAll(coords);
-        if (cs.length === 0)
-            return;
-        if (cs.length < 1)
-            this.drawPoint(cs[0], 2, color);
-        const cx = this.cx;
-        let prevSlope = getSlopeOf(cs[0], cs[1]);
-        for (let i = 1; i < cs.length - 1; i++) {
-            const currSlope = getSlopeOf(cs[i - 1], cs[i + 1]);
-            const prev = cs[i - 1];
-            const curr = cs[i];
-            // console.log("BEZIER START:", prev, prevSlope, "HANDLE: ", {x: prev.x + weight, y: prev.y + weight * prevSlope});
-            // console.log("BEZIER END:", curr, currSlope, "HANDLE: ", {x: curr.x + weight, y: curr.y + weight * currSlope});
-            bezierCurve(cx, prev, prevSlope, curr, currSlope, weight, "red");
-            prevSlope = currSlope;
-        }
-        const last = cs[cs.length - 1];
-        const nextToLast = cs[cs.length - 2];
-        const endingSlope = getSlopeOf(last, nextToLast);
-        bezierCurve(cx, nextToLast, prevSlope, last, endingSlope, weight);
     }
     drawLine(coords, color = '') {
         if (color === '')
@@ -111,6 +93,16 @@ class Graphi {
         }
         this.cx.stroke();
     }
+    // TODO: rgb to deselect bad color ranges
+    // randomColorSelector(): string {
+    //   const colors = ["AliceBlue","AntiqueWhite","Aqua","Aquamarine","Azure","Beige","Bisque","Black","BlanchedAlmond","Blue","BlueViolet","Brown","BurlyWood","CadetBlue","Chartreuse","Chocolate","Coral","CornflowerBlue","Cornsilk","Crimson","Cyan","DarkBlue","DarkCyan","DarkGoldenRod","DarkGray","DarkGrey","DarkGreen","DarkKhaki","DarkMagenta","DarkOliveGreen","Darkorange","DarkOrchid","DarkRed","DarkSalmon","DarkSeaGreen","DarkSlateBlue","DarkSlateGray","DarkSlateGrey","DarkTurquoise","DarkViolet","DeepPink","DeepSkyBlue","DimGray","DimGrey","DodgerBlue","FireBrick","FloralWhite","ForestGreen","Fuchsia","Gainsboro","GhostWhite","Gold","GoldenRod","Gray","Grey","Green","GreenYellow","HoneyDew","HotPink","IndianRed","Indigo","Ivory","Khaki","Lavender","LavenderBlush","LawnGreen","LemonChiffon","LightBlue","LightCoral","LightCyan","LightGoldenRodYellow","LightGray","LightGrey","LightGreen","LightPink","LightSalmon","LightSeaGreen","LightSkyBlue","LightSlateGray","LightSlateGrey","LightSteelBlue","LightYellow","Lime","LimeGreen","Linen","Magenta","Maroon","MediumAquaMarine","MediumBlue","MediumOrchid","MediumPurple","MediumSeaGreen","MediumSlateBlue","MediumSpringGreen","MediumTurquoise","MediumVioletRed","MidnightBlue","MintCream","MistyRose","Moccasin","NavajoWhite","Navy","OldLace","Olive","OliveDrab","Orange","OrangeRed","Orchid","PaleGoldenRod","PaleGreen","PaleTurquoise","PaleVioletRed","PapayaWhip","PeachPuff","Peru","Pink","Plum","PowderBlue","Purple","Red","RosyBrown","RoyalBlue","SaddleBrown","Salmon","SandyBrown","SeaGreen","SeaShell","Sienna","Silver","SkyBlue","SlateBlue","SlateGray","SlateGrey","Snow","SpringGreen","SteelBlue","Tan","Teal","Thistle","Tomato","Turquoise","Violet","Wheat","White","WhiteSmoke","Yellow","YellowGreen"];
+    //   let color = colors[Math.floor(Math.random() * colors.length)]
+    //   while (this.colorsInUse.includes(color)) {
+    //     color = colors[Math.floor(Math.random() * colors.length)];
+    //   }
+    //   this.colorsInUse.push(color);
+    //   return color;
+    // }
     convertToCoord(coords) {
         if (Array.isArray(coords) &&
             coords.every(coord => Array.isArray(coord)
@@ -150,25 +142,13 @@ function endOfVector(root, angle, hypotenuse) {
 function angleOfVector(root, end) {
     return Math.asin((end.y - root.y) / hypotenuse(root, end));
 }
-function getSlopeOf(coord1, coord2) {
-    const x = coord2.x - coord1.x;
-    const y = coord2.y - coord1.y;
-    return y / x;
-}
-function bezierCurve(cx, start, startSlope, end, endSlope, weight, color = '') {
-    cx.beginPath();
-    cx.strokeStyle = colorize(color);
-    cx.moveTo(start.x, start.y);
-    cx.bezierCurveTo(start.x + weight, start.y + weight * startSlope, end.x - weight, end.y - weight * endSlope, end.x, end.y);
-    cx.stroke();
-}
 function transform(canvas, percentX, percentY, minX, maxX, minY, maxY) {
     return function (c) {
         let gridX = (c.x + Math.abs(minX)) / (Math.abs(minX) + maxX) * canvas.width;
         let graphX = gridX * percentX + (canvas.width * (1 - percentX)) / 2;
         let gridY = (c.y + Math.abs(minY)) / (Math.abs(minY) + maxY) * canvas.height;
         let graphY = gridY * percentY + (canvas.height * (1 - percentY)) / 2;
-        let globalY = canvas.height - graphY;
+        let globalY = canvas.height - gridY;
         return { x: graphX, y: globalY };
     };
 }
