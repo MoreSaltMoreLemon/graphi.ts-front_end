@@ -56,7 +56,7 @@ class Editor {
     this.editor = ace.edit('editor');
     this.editor.session.setMode("ace/mode/javascript");
     this.editor.setTheme("ace/theme/monokai");
-    // this.editor.setValue("the new text here");
+    this.editor.setOption("enableLiveAutocompletion", true);
   }
 
   populateSelectOptions(examples) {
