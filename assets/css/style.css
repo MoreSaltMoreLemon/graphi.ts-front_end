@@ -47,17 +47,12 @@ textarea {
   font-size: 12pt;
 }
 button {
-<<<<<<< HEAD
   padding: 6px;
-=======
-  padding: 5px 10px;
->>>>>>> 7f22d59db9a73974bbcb8d86635c55dc08b36ca4
   font-size: 12pt;
   border-radius: 3px;
   margin: 5px;
 }
 select, option {
-  padding: 100px 200px;
   height: 30px;
   font-size: 12pt;
   margin: 5px;
@@ -155,7 +150,6 @@ canvas, #text-editor-form {
   left: 0;
 }
 
-
 #description {
   position: absolute;
   display: block;
@@ -189,36 +183,7 @@ canvas, #text-editor-form {
   display: none;
 }
 
-
-
-#graph-type {
-  -webkit-appearance: button;
-  -moz-appearance: button;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -webkit-padding-end: 20px;
-  -moz-padding-end: 20px;
-  -webkit-padding-start: 2px;
-  -moz-padding-start: 2px;
-  background-color: #F07575; /* fallback color if gradients are not supported */
-
-  background-image: url(../images/select-arrow.png), linear-gradient(to bottom, #E5E5E5, #F4F4F4); /* Standard syntax; must be last */
-  background-position: center right;
-  background-repeat: no-repeat;
-  border: 1px solid #AAA;
-  border-radius: 2px;
-  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
-  color: #555;
-  font-size: inherit;
-  margin: 0;
-  overflow: hidden;
-  padding: 6px;
-  
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-#graph-type::after{
+#graph-type option::after{
   content: "▼";
 }
 

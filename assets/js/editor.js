@@ -20,29 +20,32 @@ class Editor {
     // editor.style.height = "400px";
     // editor.style.width = "900px";
 
+    const editForm = document.createElement('form');
+
     const select = document.createElement('select');
     select.id = 'graph-type';
 
     const runCodeButton = document.createElement('button');
     runCodeButton.id = 'run';
     runCodeButton.textContent = "Run Code";
-    runCodeButton.addEventListener('click', (e)=> this.updateGraph());
+    runCodeButton.addEventListener('click', (e)=> {e.preventDefault(); this.updateGraph()});
 
     const copyButton = document.createElement('button');
     copyButton.id = 'copy';
     copyButton.textContent = "Copy";
-    copyButton.addEventListener('click', () => this.copyEditorContents())
+    copyButton.addEventListener('click', (e) => {e.preventDefault(); this.copyEditorContents()})
 
     const saveButton = document.createElement('button');
     saveButton.id = 'save';
     saveButton.textContent = "Save Image";
-    saveButton.addEventListener('click', () => this.saveImage());
+    saveButton.addEventListener('click', (e) => {e.preventDefault(); this.saveImage()});
 
-    section.appendChild(editor);
-    section.appendChild(select);
-    section.appendChild(runCodeButton);
-    section.appendChild(copyButton);
-    section.appendChild(saveButton);
+    editForm.appendChild(editor);
+    editForm.appendChild(select);
+    editForm.appendChild(runCodeButton);
+    editForm.appendChild(copyButton);
+    editForm.appendChild(saveButton);
+    section.appendChild(editForm);
 
     // content.appendChild(canvas);
     content.appendChild(section);
@@ -57,6 +60,11 @@ class Editor {
     this.editor.session.setMode("ace/mode/javascript");
     this.editor.setTheme("ace/theme/monokai");
     this.editor.setOption("enableLiveAutocompletion", true);
+    this.editor.commands.addCommand({
+        name: "showKeyboardShortcuts",
+        bindKey: {win: "Ctrl-s", mac: "Cmd-s"},
+        exec: (editor) => { this.updateGraph() }
+    })
   }
 
   populateSelectOptions(examples) {
@@ -89,7 +97,14 @@ class Editor {
   updateGraph() {
     this.clearCanvas();
     const input = this.editor.getValue();
-    eval(input);
+    try {
+      eval(input);
+    } catch(err) {
+      const context = this.canvas.getContext('2d');
+      context.font = "12pt Sans-Serif";
+      context.fillStyle = "Red";
+      context.fillText(`${err.name}: ${err.message}`, 10, this.canvas.height-10);
+    }
   }
 
   updateEditor(textContent) {
