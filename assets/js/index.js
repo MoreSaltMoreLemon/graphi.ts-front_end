@@ -49,9 +49,15 @@ function menuLinks() {
 
 function animateHidingInitialDescription() {
   const description = document.querySelector("#description");
+  const blurb = document.getElementById('blurb');
   const canvas = document.querySelector('canvas');
   const section = document.querySelector('#text-editor-form');
   canvas.style.display = "block";
   section.style.display = "block";
-  description.className = "hide";
+  blurb.className = "hide";
+  window.setTimeout(() => description.className = "hide", 800);
+  window.setTimeout(() => {
+    blurb.id = "hidden";
+    description.id = "hidden";
+  }, 1800)
 }
