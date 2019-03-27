@@ -41,7 +41,7 @@ main.content {
   /* text-align: center; */
 }
 canvas {
-  border: 1px solid;
+  border: 1px solid darkgray;
 }
 textarea {
   font-size: 12pt;
@@ -60,8 +60,8 @@ button {
       position: sticky;
       top: -1px;
       left: -1px;
-      background-color: beige;
-      border-bottom: 1px solid black;
+      background-color: #323232;
+      border-bottom: 1px solid lightgray;
     }
     nav .header h1 {
       font-size: 24pt;
@@ -75,9 +75,9 @@ button {
       position: absolute;
       top: 70px;
       left: 0;
-      background-color: beige;
+      background-color: #323232;
       min-width: 200px;
-      border: 1px solid black;
+      border: 1px solid lightgray;
     }
     nav .links a {
       padding: 10px 20px;
@@ -107,8 +107,10 @@ button {
     }
 
     canvas, div#editor {
-      width: 80%;
+      width: 80vw;
       padding: 20px;
+      height: 400px;
+      /* width: 600px; */
     }
 
 }
@@ -124,8 +126,9 @@ button {
   }
 
 canvas, #text-editor-form {
-  height: 600px;
-  width: 900px;
+  display: none;
+  height: 500px;
+  width: 800px;
 }
 #text-editor {
   position: relative;
@@ -138,4 +141,95 @@ canvas, #text-editor-form {
   right: 0;
   bottom: 0;
   left: 0;
+}
+
+
+#description {
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  opacity: 1;
+  background-color: #323232;
+  z-index: 5;
+}
+
+#description #blurb {
+  position: relative;
+  top: 40vh;
+  left: 35vw;
+}
+
+
+
+#description.hide
+{
+  -webkit-animation: fadeToNone 1.0s ease-out;
+  -moz-animation: fadeToNone 1.0s ease-out;
+  -o-animation: fadeToNone 1.0s ease-out;
+  animation: fadeToNone 1.0s ease-out;
+  display: block;
+  opacity: 0;
+}
+
+@-webkit-keyframes fadeToNone {
+  0% {
+    display: block;
+    opacity: 1;
+  }
+  99% {
+    display: block;
+    opacity: 0;
+  }
+  100% {
+    display: none;
+    opacity: 0;
+  }
+}
+
+@-moz-keyframes fadeToNone {
+  0% {
+    display: block;
+    opacity: 1;
+  }
+  99% {
+    display: block;
+    opacity: 0;
+  }
+  100% {
+    display: none;
+    opacity: 0;
+  }
+}
+
+@-o-keyframes fadeToNone {
+  0% {
+    display: block;
+    opacity: 1;
+  }
+  99% {
+    display: block;
+    opacity: 0;
+  }
+  100% {
+    display: none;
+    opacity: 0;
+  }
+}
+
+@keyframes fadeToNone {
+  0% {
+    display: block;
+    opacity: 1;
+  }
+  99% {
+    display: block;
+    opacity: 0;
+  }
+  100% {
+    display: none;
+    opacity: 0;
+  }
 }

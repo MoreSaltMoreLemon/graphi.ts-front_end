@@ -44,8 +44,11 @@ class Editor {
     section.appendChild(copyButton);
     section.appendChild(saveButton);
 
-    content.appendChild(canvas);
+    // content.appendChild(canvas);
     content.appendChild(section);
+
+    // canvas.style.display = "block";
+    // section.style.display = "block";
     console.log("OHHHH YEAH")
   }
 

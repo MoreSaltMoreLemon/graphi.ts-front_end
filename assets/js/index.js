@@ -2,16 +2,19 @@ const EXAMPLES_URL = "http://localhost:3000/api/v1/examples"
 window.addEventListener("load", main);
 
 async function main() {
+  initializeMenu();
+
   const examples = await getExamples();
-  
+
   const editor = new Editor();
   editor.renderCanvasAndEditor();
   editor.initializeEditor();
   editor.populateSelectOptions(examples);
   editor.updateGraph();
-  
-  initializeMenu();
+
+  window.setTimeout(animateHidingInitialDescription, 800);
 }
+
 
 async function getExamples() {
   return await fetch(EXAMPLES_URL)
@@ -42,4 +45,13 @@ function menuLinks() {
           })
       }
   })
+}
+
+function animateHidingInitialDescription() {
+  const description = document.querySelector("#description");
+  const canvas = document.querySelector('canvas');
+  const section = document.querySelector('#text-editor-form');
+  canvas.style.display = "block";
+  section.style.display = "block";
+  description.className = "hide";
 }
