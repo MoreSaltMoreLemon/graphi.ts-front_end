@@ -59,5 +59,5 @@ function animateHidingInitialDescription() {
   window.setTimeout(() => {
     blurb.id = "hidden";
     description.id = "hidden";
-  }, 1800)
+  }, 1400)
 }

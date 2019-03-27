@@ -110,8 +110,6 @@ class Editor {
 
   saveImage() {
     const img = this.canvas.toDataURL();
-    // const image = document.createElement('img');
-    // image.src = img;
     this.saveBase64AsFile(img, "test.png");
   }
 
