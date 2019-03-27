@@ -102,7 +102,7 @@ class Editor {
     } catch(err) {
       const context = this.canvas.getContext('2d');
       context.font = "12pt Sans-Serif";
-      context.fillStyle = "Red";
+      context.fillStyle = "darkorange";
       context.fillText(`${err.name}: ${err.message}`, 10, this.canvas.height-10);
     }
   }
