@@ -41,7 +41,7 @@ main.content {
   /* text-align: center; */
 }
 canvas {
-  border: 1px solid darkgray;
+  /* border: 20px solid darkgray; */
 }
 textarea {
   font-size: 12pt;
@@ -134,8 +134,9 @@ select, option {
 
 canvas, #text-editor-form {
   display: none;
-  height: 500px;
-  width: 800px;
+  margin: 0;
+  /* height: 500px;
+  width: 1000px; */
 }
 #text-editor {
   position: relative;

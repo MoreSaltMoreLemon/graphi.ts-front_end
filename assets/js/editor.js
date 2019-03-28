@@ -47,12 +47,7 @@ class Editor {
     editForm.appendChild(saveButton);
     section.appendChild(editForm);
 
-    // content.appendChild(canvas);
-    content.appendChild(section);
-
-    // canvas.style.display = "block";
-    // section.style.display = "block";
-    console.log("OHHHH YEAH")
+    content.appendChild(section);    
   }
 
   initializeEditor() {
@@ -100,6 +95,7 @@ class Editor {
     try {
       eval(input);
     } catch(err) {
+      console.log(err);
       const context = this.canvas.getContext('2d');
       context.font = "12pt Sans-Serif";
       context.fillStyle = "Red";
