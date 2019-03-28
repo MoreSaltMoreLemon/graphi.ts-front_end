@@ -46,6 +46,15 @@ canvas {
 textarea {
   font-size: 12pt;
 }
+form * {
+  justify-items: right;
+  justify-content: right;
+  justify-self: right;
+  text-justify: right;
+  align-items: right;
+  align-content: right;
+  align-self: right;
+}
 button {
   padding: 6px;
   font-size: 12pt;
@@ -56,6 +65,67 @@ select, option {
   height: 30px;
   font-size: 12pt;
   margin: 5px;
+}
+canvas, #text-editor-form {
+  display: none;
+  height: 500px;
+  width: 800px;
+}
+#text-editor {
+  position: relative;
+}
+#editor { 
+  height: 300px;
+  width: 100%;
+  position: inline;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+#description {
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  opacity: 1;
+  background-color: #323232;
+  z-index: 5;
+}
+#description #blurb {
+  position: relative;
+  top: 40vh;
+  left: 35vw;
+}
+#description.hide {
+  animation: fadeToNone 0.6s ease-in-out;
+  opacity: 0;
+}
+#blurb.hide {
+  animation: fadeToNone 0.8s ease-in-out;
+  opacity: 0;
+}
+#hidden {
+  display: none;
+}
+section.examples {
+  display: grid;
+}
+@keyframes fadeToNone {
+  0% {
+    display: block;
+    opacity: 1;
+  }
+  99% {
+    display: block;
+    opacity: 0;
+  }
+  100% {
+    display: none;
+    opacity: 0;
+  }
 }
 @media screen 
   and (max-width: 899px) {
@@ -131,73 +201,3 @@ select, option {
       padding: 30px 20px;
     }
   }
-
-canvas, #text-editor-form {
-  display: none;
-  height: 500px;
-  width: 800px;
-}
-#text-editor {
-  position: relative;
-}
-#editor { 
-  height: 300px;
-  width: 100%;
-  position: inline;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-}
-
-#description {
-  position: absolute;
-  display: block;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 100vw;
-  opacity: 1;
-  background-color: #323232;
-  z-index: 5;
-}
-
-#description #blurb {
-  position: relative;
-  top: 40vh;
-  left: 35vw;
-}
-
-#description.hide {
-  animation: fadeToNone 0.6s ease-in-out;
-  opacity: 0;
-}
-
-
-#blurb.hide {
-  animation: fadeToNone 0.8s ease-in-out;
-  opacity: 0;
-}
-
-#hidden {
-  display: none;
-}
-
-#graph-type option::after{
-  content: "▼";
-}
-
-@keyframes fadeToNone {
-  0% {
-    display: block;
-    opacity: 1;
-  }
-  99% {
-    display: block;
-    opacity: 0;
-  }
-  100% {
-    display: none;
-    opacity: 0;
-  }
-}
