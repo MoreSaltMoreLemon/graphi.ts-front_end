@@ -21,6 +21,7 @@ class Editor {
     // editor.style.width = "900px";
 
     const editForm = document.createElement('form');
+    editForm.id = "edit-form";
 
     const select = document.createElement('select');
     select.id = 'graph-type';
@@ -40,11 +41,17 @@ class Editor {
     saveButton.textContent = "Save Image";
     saveButton.addEventListener('click', (e) => {e.preventDefault(); this.saveImage()});
 
+    const shareButton = document.createElement('button');
+    shareButton.id = 'share';
+    shareButton.textContent = "Share Image";
+    shareButton.addEventListener('click', (e) => {e.preventDefault(); this.renderShareImageModal()});
+
     editForm.appendChild(editor);
     editForm.appendChild(select);
     editForm.appendChild(runCodeButton);
     editForm.appendChild(copyButton);
     editForm.appendChild(saveButton);
+    editForm.appendChild(shareButton);
     section.appendChild(editForm);
 
     content.appendChild(section);    
@@ -67,13 +74,8 @@ class Editor {
   
     examples.sort((a, b) => a.graph_type < b.graph_type ? -1 : 1)
             .forEach(ex => {
-              const option = document.createElement('option');
-              option.id = ex.graph_type;
-              option.value = ex.title;
-              option.textContent = ex.title;
-          
-              
-          
+              console.log(ex);
+              const option = this.renderSelectOption(ex.title);
               select.appendChild(option);
             });
   
@@ -125,11 +127,79 @@ class Editor {
   }
 
   saveBase64AsFile(base64, fileName) {
-
     var link = document.createElement("a");
 
     link.setAttribute("href", base64);
     link.setAttribute("download", fileName);
     link.click();
+  }
+
+  shareImage(e) {
+    e.preventDefault();
+    const image = this.canvas.toDataURL('image/jpeg');
+    const javascript = this.editor.getValue();
+    const title = document.querySelector('#title').value;
+    const description = document.querySelector('#example-description').value;
+    const graphType = document.querySelector('#graph-type-select').value;
+
+    postUserExample({title, description, "graph-type": graphType, javascript, image })
+    document.querySelector('#share-example-container').remove();
+  }
+
+  renderShareImageModal() {
+    const formContainer = document.createElement('div');
+    formContainer.id = 'share-example-container'
+    const form = document.createElement('form');
+    
+    
+    const titleLabel = document.createElement('label');
+    titleLabel.textContent = "Title";
+    titleLabel.setAttribute("for", "title");
+    const title = document.createElement('input');
+    title.id = "title";
+    title.placeholder = "Title";
+
+    const descriptionLabel = document.createElement('label');
+    descriptionLabel.textContent = "Description";
+    descriptionLabel.setAttribute("for", "description");
+    const description = document.createElement('textarea');
+    description.id = "example-description";
+    description.placeholder = "Description";
+
+    const graphTypeSelectLabel = document.createElement('label');
+    graphTypeSelectLabel.textContent = "Graph Type";
+    graphTypeSelectLabel.setAttribute("for", "graph-type");
+
+    const select = document.createElement('select');
+    select.id = "graph-type-select"
+    select.appendChild(this.renderSelectOption('line'));
+    select.appendChild(this.renderSelectOption('line with points'));
+    select.appendChild(this.renderSelectOption('bezier'));
+    select.appendChild(this.renderSelectOption('scatter'));
+
+    const shareButton = document.createElement('button');
+    shareButton.id = 'submit-share';
+    shareButton.textContent = "Share";
+    shareButton.addEventListener('click', this.shareImage.bind(this));
+
+    form.appendChild(titleLabel);
+    form.appendChild(title);
+    form.appendChild(descriptionLabel);
+    form.appendChild(description);
+    form.appendChild(graphTypeSelectLabel);
+    form.appendChild(select);
+    form.appendChild(shareButton);
+
+    formContainer.appendChild(form);
+
+    document.body.appendChild(formContainer);
+  }
+
+  renderSelectOption(value) {
+    const option = document.createElement('option');
+    option.id = value.split(" ").join("-");
+    option.value = value;
+    option.textContent = value[0].toUpperCase() + value.slice(1);
+    return option;
   }
 }

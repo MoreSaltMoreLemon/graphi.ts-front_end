@@ -1,11 +1,12 @@
 const EXAMPLES_URL = "http://localhost:3000/api/v1/examples"
+const USER_EXAMPLES_URL = "http://localhost:3000/api/v1/user_examples"
 window.addEventListener("load", main);
 
 async function main() {
   initializeMenu();
 
   const examples = await getExamples();
-
+  console.log("EXAMPLES", examples);
   const editor = new Editor();
   editor.renderCanvasAndEditor();
   editor.initializeEditor();
@@ -19,6 +20,31 @@ async function main() {
 async function getExamples() {
   return await fetch(EXAMPLES_URL)
     .then(response => response.json())
+}
+
+async function getUserExamples() {
+  return await httpRequest(USER_EXAMPLES_URL)
+  .then(response => response.json())
+} 
+
+async function postUserExample(userExample) {
+  return await httpRequest(USER_EXAMPLES_URL, "post", userExample)
+  .then(response => response.json())
+}
+
+function httpRequest(url, method='GET', data={}) {
+  const init = {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    method: method,
+    body: JSON.stringify(data)
+  }
+  if (method.toLowerCase() === 'get') delete init.body;
+  if (method.toLowerCase() === 'post' && init.body.id) delete init.body.id;
+  
+  return fetch( url, init);
 }
 
 function initializeMenu() {
