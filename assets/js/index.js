@@ -18,7 +18,7 @@ async function main() {
 
 
 async function getExamples() {
-  return await fetch(EXAMPLES_URL)
+  return await httpRequest(EXAMPLES_URL)
     .then(response => response.json())
 }
 
@@ -54,24 +54,51 @@ function initializeMenu() {
   menuLinks();
 }
 
+function clearContent() {
+  const content = document.getElementById('content');
+  while (content.firstChild) content.firstChild.remove();
+}
+
 function menuToggle() {
     let nav = document.querySelector('.links');
     nav.classList.toggle('menu-closed');
 }
 
 function menuLinks() {
-  window.addEventListener('hashchange', (e) => {
-    let hash = location.hash.split('#');
-      let url = hash[1];
-      if (url) {
-        fetch(`/pages/${url}.html`).then(results => results.text())
-          .then(text => {
-            let page = document.getElementById('content');
-            page.innerHTML = text;
-          })
-      }
-  })
+  const examples = document.getElementById('examples');
+  const docs = document.getElementById('docs');
+
+  examples.addEventListener('click', () => {
+    console.log("THE FUCK?");
+    clearContent();
+    displayAllUserExamples();
+  });
+
+  docs.addEventListener('click', () => {
+    clearContent();
+    renderDocs();
+  });
 }
+
+async function displayAllUserExamples() {
+  const userExamples = await getUserExamples();
+  const content = document.getElementById('content');
+  content.appendChild(renderExamples(userExamples));
+}
+function renderDocs() {}
+// function menuLinks() {
+//   window.addEventListener('hashchange', (e) => {
+//     let hash = location.hash.split('#');
+//       let url = hash[1];
+//       if (url) {
+//         fetch(`/pages/${url}.html`).then(results => results.text())
+//           .then(text => {
+//             let page = document.getElementById('content');
+//             page.innerHTML = text;
+//           })
+//       }
+//   })
+// }
 
 function animateHidingInitialDescription() {
   const description = document.querySelector("#description");
@@ -86,4 +113,42 @@ function animateHidingInitialDescription() {
     blurb.id = "hidden";
     description.id = "hidden";
   }, 1400)
+}
+
+function renderExamples(examples) {
+  const docFrag = new DocumentFragment();
+  examples.forEach(ex => docFrag.appendChild(renderExample(ex)));
+  return docFrag;
+}
+
+function renderExample(example) {
+  const exampleContainer = document.createElement('div');
+  exampleContainer.style.position = "relative";
+
+  const image = document.createElement('img');
+  image.src = example.image;
+  
+  const exampleContent = document.createElement('div');
+  exampleContent.id = "example-content";
+  const title = document.createElement('h3');
+  title.textContent = example.title;
+  const description = document.createElement('p');
+  description.textContent = example.description;
+  const javascript = document.createElement('section');
+  javascript.textContent = example.javascript.slice(0, 140);
+  const javascriptHidden = document.createElement('div');
+  javascriptHidden.textContent = example.javascript;
+
+  exampleContainer.addEventListener('click', (e) => {
+    alert(javasscriptHidden.textContent);
+    //document.execCommand("copy");
+  });
+
+  exampleContainer.appendChild(javascriptHidden);
+  exampleContainer.appendChild(image);
+  exampleContainer.appendChild(exampleContent);
+  exampleContainer.appendChild(description);
+  exampleContainer.appendChild(javascript);
+
+  return exampleContainer;
 }

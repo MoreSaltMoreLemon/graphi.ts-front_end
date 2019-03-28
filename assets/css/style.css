@@ -43,9 +43,9 @@ main.content {
   padding: 4vh;
   /* text-align: center; */
 }
-canvas {
-  /* border: 20px solid darkgray; */
-}
+/* canvas {
+  background-color: #404040;
+} */
 textarea {
   font-size: 12pt;
 }
