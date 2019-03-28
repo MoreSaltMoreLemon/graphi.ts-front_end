@@ -41,7 +41,7 @@ main.content {
   /* text-align: center; */
 }
 canvas {
-  border: 1px solid darkgray;
+  /* border: 20px solid darkgray; */
 }
 textarea {
   font-size: 12pt;
