@@ -91,6 +91,7 @@ async function renderDocs() {
   const content = document.getElementById('content');
   const mdContainer = document.createElement('section');
   mdContainer.classList.add("docs")
+  hljs.initHighlighting.called = false
 
   var converter = new showdown.Converter(),
     text      = docsMd
