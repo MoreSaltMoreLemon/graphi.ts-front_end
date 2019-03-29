@@ -6,7 +6,6 @@ async function main() {
   initializeMenu();
 
   const examples = await getExamples();
-  console.log("EXAMPLES", examples);
   const editor = new Editor();
   editor.renderCanvasAndEditor();
   editor.initializeEditor();
@@ -69,14 +68,15 @@ function menuLinks() {
   const docs = document.getElementById('docs');
 
   examples.addEventListener('click', () => {
-    console.log("THE FUCK?");
     clearContent();
     displayAllUserExamples();
+    menuToggle();
   });
 
   docs.addEventListener('click', () => {
     clearContent();
     renderDocs();
+    menuToggle();
   });
 }
 
@@ -116,39 +116,50 @@ function animateHidingInitialDescription() {
 }
 
 function renderExamples(examples) {
-  const docFrag = new DocumentFragment();
-  examples.forEach(ex => docFrag.appendChild(renderExample(ex)));
-  return docFrag;
+  const exampleContainer = document.createElement('div')
+  exampleContainer.id = "example-container"
+  
+  examples.forEach(ex => exampleContainer.appendChild(renderExample(ex)));
+  return exampleContainer;
 }
 
 function renderExample(example) {
   const exampleContainer = document.createElement('div');
-  exampleContainer.style.position = "relative";
+  exampleContainer.className = "example";
 
   const image = document.createElement('img');
   image.src = example.image;
   
   const exampleContent = document.createElement('div');
   exampleContent.id = "example-content";
-  const title = document.createElement('h3');
+
+  const title = document.createElement('h1');
   title.textContent = example.title;
-  const description = document.createElement('p');
+
+  const description = document.createElement('h3');
   description.textContent = example.description;
-  const javascript = document.createElement('section');
-  javascript.textContent = example.javascript.slice(0, 140);
-  const javascriptHidden = document.createElement('div');
+
+  const javascript = document.createElement('p');
+  javascript.textContent = example.javascript.slice(0, 140) + '...';
+  
+  exampleContent.appendChild(title);
+  exampleContent.appendChild(description);
+  exampleContent.appendChild(javascript);
+  exampleContent.className = 'info';
+
+  const javascriptHidden = document.createElement('input');
   javascriptHidden.textContent = example.javascript;
+  javascriptHidden.id = 'code';
+  javascriptHidden.style.display = 'none';
 
   exampleContainer.addEventListener('click', (e) => {
-    alert(javasscriptHidden.textContent);
-    //document.execCommand("copy");
+    document.getElementById('code')
+    document.execCommand('copy');
   });
 
   exampleContainer.appendChild(javascriptHidden);
   exampleContainer.appendChild(image);
   exampleContainer.appendChild(exampleContent);
-  exampleContainer.appendChild(description);
-  exampleContainer.appendChild(javascript);
 
   return exampleContainer;
 }

@@ -74,7 +74,6 @@ class Editor {
   
     examples.sort((a, b) => a.graph_type < b.graph_type ? -1 : 1)
             .forEach(ex => {
-              console.log(ex);
               const option = this.renderSelectOption(ex.title);
               select.appendChild(option);
             });
