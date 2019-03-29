@@ -85,20 +85,20 @@ async function displayAllUserExamples() {
   const content = document.getElementById('content');
   content.appendChild(renderExamples(userExamples));
 }
-function renderDocs() {}
-// function menuLinks() {
-//   window.addEventListener('hashchange', (e) => {
-//     let hash = location.hash.split('#');
-//       let url = hash[1];
-//       if (url) {
-//         fetch(`/pages/${url}.html`).then(results => results.text())
-//           .then(text => {
-//             let page = document.getElementById('content');
-//             page.innerHTML = text;
-//           })
-//       }
-//   })
-// }
+
+async function renderDocs() {
+  const docsMd = await fetch('DOCS.md').then(results => results.text())
+  const content = document.getElementById('content');
+  const mdContainer = document.createElement('section');
+  mdContainer.classList.add("docs")
+
+  var converter = new showdown.Converter(),
+    text      = docsMd
+    html      = converter.makeHtml(text);
+  mdContainer.innerHTML = html
+  content.appendChild(mdContainer);
+  hljs.initHighlighting();
+}
 
 function animateHidingInitialDescription() {
   const description = document.querySelector("#description");

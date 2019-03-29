@@ -170,7 +170,6 @@ canvas, #text-editor-form {
   max-width: 30vw;
   max-height: 30vh;  
 }
-
 @keyframes fadeToNone {
   0% {
     display: block;
@@ -213,6 +212,7 @@ canvas, #text-editor-form {
       background-color: #323232;
       min-width: 200px;
       border: 1px solid lightgray;
+      padding-bottom: 20px;
     }
     nav .links a {
       padding: 10px 20px;
@@ -229,11 +229,11 @@ canvas, #text-editor-form {
       cursor: pointer;
     }
     nav div.mobile-nav div.hb-line {
-      border: 1px black solid;
+      border: 1px lightgray solid;
       margin: 3px 0;
       padding: 2px;
       border-radius: 10px;
-      background-color: black;
+      background-color: lightgrey;
       width: 30px;
     }
 
@@ -252,6 +252,9 @@ canvas, #text-editor-form {
       grid-template-columns: 1fr 1fr;
       grid-gap: 2em;
     }
+    section.docs {
+      padding: 20px 3vw;
+    }
 
 }
 @media screen
@@ -262,6 +265,9 @@ canvas, #text-editor-form {
     }
     nav {
       padding: 30px 20px;
+    }
+    section.docs {
+      padding: 20px 20vw 0 3vw;
     }
   }
 
