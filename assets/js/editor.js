@@ -74,7 +74,6 @@ class Editor {
   
     examples.sort((a, b) => a.graph_type < b.graph_type ? -1 : 1)
             .forEach(ex => {
-              console.log(ex);
               const option = this.renderSelectOption(ex.title);
               select.appendChild(option);
             });
@@ -122,7 +121,7 @@ class Editor {
   }
 
   saveImage() {
-    const img = this.canvas.toDataURL();
+    const img = this.canvas.toDataURL('image/jpeg', 1);
     this.saveBase64AsFile(img, "test.png");
   }
 
@@ -136,7 +135,7 @@ class Editor {
 
   shareImage(e) {
     e.preventDefault();
-    const image = this.canvas.toDataURL('image/jpeg');
+    const image = this.canvas.toDataURL('image/jpeg', 1);
     const javascript = this.editor.getValue();
     const title = document.querySelector('#title').value;
     const description = document.querySelector('#example-description').value;

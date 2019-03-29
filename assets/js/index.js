@@ -6,7 +6,6 @@ async function main() {
   initializeMenu();
 
   const examples = await getExamples();
-  console.log("EXAMPLES", examples);
   const editor = new Editor();
   editor.renderCanvasAndEditor();
   editor.initializeEditor();
@@ -18,7 +17,7 @@ async function main() {
 
 
 async function getExamples() {
-  return await fetch(EXAMPLES_URL)
+  return await httpRequest(EXAMPLES_URL)
     .then(response => response.json())
 }
 
@@ -54,24 +53,52 @@ function initializeMenu() {
   menuLinks();
 }
 
+function clearContent() {
+  const content = document.getElementById('content');
+  while (content.firstChild) content.firstChild.remove();
+}
+
 function menuToggle() {
     let nav = document.querySelector('.links');
     nav.classList.toggle('menu-closed');
 }
 
 function menuLinks() {
-  window.addEventListener('hashchange', (e) => {
-    let hash = location.hash.split('#');
-      let url = hash[1];
-      if (url) {
-        fetch(`/pages/${url}.html`).then(results => results.text())
-          .then(text => {
-            let page = document.getElementById('content');
-            page.innerHTML = text;
-          })
-      }
-  })
+  const examples = document.getElementById('examples');
+  const docs = document.getElementById('docs');
+
+  examples.addEventListener('click', () => {
+    clearContent();
+    displayAllUserExamples();
+    menuToggle();
+  });
+
+  docs.addEventListener('click', () => {
+    clearContent();
+    renderDocs();
+    menuToggle();
+  });
 }
+
+async function displayAllUserExamples() {
+  const userExamples = await getUserExamples();
+  const content = document.getElementById('content');
+  content.appendChild(renderExamples(userExamples));
+}
+function renderDocs() {}
+// function menuLinks() {
+//   window.addEventListener('hashchange', (e) => {
+//     let hash = location.hash.split('#');
+//       let url = hash[1];
+//       if (url) {
+//         fetch(`/pages/${url}.html`).then(results => results.text())
+//           .then(text => {
+//             let page = document.getElementById('content');
+//             page.innerHTML = text;
+//           })
+//       }
+//   })
+// }
 
 function animateHidingInitialDescription() {
   const description = document.querySelector("#description");
@@ -86,4 +113,53 @@ function animateHidingInitialDescription() {
     blurb.id = "hidden";
     description.id = "hidden";
   }, 1400)
+}
+
+function renderExamples(examples) {
+  const exampleContainer = document.createElement('div')
+  exampleContainer.id = "example-container"
+  
+  examples.forEach(ex => exampleContainer.appendChild(renderExample(ex)));
+  return exampleContainer;
+}
+
+function renderExample(example) {
+  const exampleContainer = document.createElement('div');
+  exampleContainer.className = "example";
+
+  const image = document.createElement('img');
+  image.src = example.image;
+  
+  const exampleContent = document.createElement('div');
+  exampleContent.id = "example-content";
+
+  const title = document.createElement('h1');
+  title.textContent = example.title;
+
+  const description = document.createElement('h3');
+  description.textContent = example.description;
+
+  const javascript = document.createElement('p');
+  javascript.textContent = example.javascript.slice(0, 140) + '...';
+  
+  exampleContent.appendChild(title);
+  exampleContent.appendChild(description);
+  exampleContent.appendChild(javascript);
+  exampleContent.className = 'info';
+
+  const javascriptHidden = document.createElement('input');
+  javascriptHidden.textContent = example.javascript;
+  javascriptHidden.id = 'code';
+  javascriptHidden.style.display = 'none';
+
+  exampleContainer.addEventListener('click', (e) => {
+    document.getElementById('code')
+    document.execCommand('copy');
+  });
+
+  exampleContainer.appendChild(javascriptHidden);
+  exampleContainer.appendChild(image);
+  exampleContainer.appendChild(exampleContent);
+
+  return exampleContainer;
 }
