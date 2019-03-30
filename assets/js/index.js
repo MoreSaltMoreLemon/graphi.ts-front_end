@@ -90,7 +90,7 @@ async function displayAllUserExamples() {
 }
 
 async function renderDocs() {
-  const docsMd = await fetch('DOCS.md').then(results => results.text())
+  const docsMd = await fetch('README.md').then(results => results.text())
   const content = document.getElementById('content');
   const mdContainer = document.createElement('section');
   mdContainer.classList.add("docs")
