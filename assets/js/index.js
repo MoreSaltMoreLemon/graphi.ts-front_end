@@ -1,5 +1,5 @@
-const EXAMPLES_URL = "http://localhost:3000/api/v1/examples"
-const USER_EXAMPLES_URL = "http://localhost:3000/api/v1/user_examples"
+const EXAMPLES_URL = "https://graphits.herokuapp.com/api/v1/examples"
+const USER_EXAMPLES_URL = "https://graphits.herokuapp.com/api/v1/user_examples"
 window.addEventListener("load", main);
 
 async function main() {
